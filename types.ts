@@ -1,31 +1,12 @@
-export interface ColorSwatch {
-  hex: string;
-  name?: string; // Optional description like "Teal", "Silver"
-}
-
-export interface DecadeContent {
+export interface Poster {
   id: string;
+  title: string;
+  titleKo: string;
   year: string;
-  subtitle: string;
+  client: string;
+  tags: string[];
+  aspectRatio: 'portrait' | 'landscape' | 'square' | 'wide' | 'tall';
+  color: string;
+  accentColor: string;
   description: string;
-  researchKit: {
-    images: string[];
-    keywords: string[];
-    vibe: string;
-  };
-  designColor: {
-    colors: ColorSwatch[];
-    text: string[];
-  };
-  popCulture: {
-    icons: string;
-    youthStyle: string;
-  };
-  styleCulture: string[];
-  context: string[];
-}
-
-export interface SelectOption {
-  value: string;
-  label: string;
 }
