@@ -1,22 +1,34 @@
 import React, { useState, useMemo, useCallback } from 'react';
 import Header from './components/Header';
-import TagFilter from './components/TagFilter';
+import FilterBar from './components/FilterBar';
 import PosterGrid from './components/PosterGrid';
 import PosterModal from './components/PosterModal';
-import { posters, allTags } from './data/content';
+import { posters, allYears, allCategories } from './data/content';
 import { Poster } from './types';
 
 const App: React.FC = () => {
-  const [activeTag, setActiveTag] = useState<string | null>(null);
+  const [activeYear, setActiveYear] = useState<string | null>(null);
+  const [activeCategory, setActiveCategory] = useState<string | null>(null);
   const [selectedPoster, setSelectedPoster] = useState<Poster | null>(null);
+  const [darkMode, setDarkMode] = useState(false);
 
   const filteredPosters = useMemo(() => {
-    if (!activeTag) return posters;
-    return posters.filter((p) => p.tags.includes(activeTag));
-  }, [activeTag]);
+    let result = posters;
+    if (activeYear) {
+      result = result.filter((p) => p.year === activeYear);
+    }
+    if (activeCategory) {
+      result = result.filter((p) => p.category === activeCategory);
+    }
+    return result;
+  }, [activeYear, activeCategory]);
 
-  const handleTagClick = useCallback((tag: string | null) => {
-    setActiveTag(tag);
+  const handleYearClick = useCallback((year: string | null) => {
+    setActiveYear(year);
+  }, []);
+
+  const handleCategoryClick = useCallback((cat: string | null) => {
+    setActiveCategory(cat);
   }, []);
 
   const handlePosterClick = useCallback((poster: Poster) => {
@@ -27,37 +39,38 @@ const App: React.FC = () => {
     setSelectedPoster(null);
   }, []);
 
-  return (
-    <div className="min-h-screen bg-neutral-50">
-      <Header />
+  const toggleDark = useCallback(() => {
+    setDarkMode((prev) => {
+      const next = !prev;
+      document.documentElement.classList.toggle('dark', next);
+      return next;
+    });
+  }, []);
 
-      <main className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
-        <TagFilter
-          tags={allTags}
-          activeTag={activeTag}
-          onTagClick={handleTagClick}
-        />
+  return (
+    <div className={`min-h-screen transition-colors duration-500 ${darkMode ? 'bg-[#111] text-white' : 'bg-white text-neutral-900'}`}>
+      <Header darkMode={darkMode} onToggleDark={toggleDark} />
+
+      <FilterBar
+        years={allYears}
+        categories={allCategories}
+        activeYear={activeYear}
+        activeCategory={activeCategory}
+        onYearClick={handleYearClick}
+        onCategoryClick={handleCategoryClick}
+        darkMode={darkMode}
+      />
+
+      <main className="max-w-[1200px] mx-auto px-6 sm:px-10 lg:px-16 pt-10 pb-20">
         <PosterGrid
           posters={filteredPosters}
           onPosterClick={handlePosterClick}
+          darkMode={darkMode}
         />
       </main>
 
-      <footer className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 py-16 mt-8">
-        <div className="border-t border-neutral-200 pt-8 flex flex-col sm:flex-row justify-between items-center gap-4">
-          <p className="text-xs text-neutral-400 tracking-wider uppercase">
-            &copy; 2025 Studio Frame. All rights reserved.
-          </p>
-          <div className="flex gap-6 text-xs text-neutral-400 tracking-wider uppercase">
-            <span className="hover:text-neutral-900 cursor-pointer transition-colors">Instagram</span>
-            <span className="hover:text-neutral-900 cursor-pointer transition-colors">Behance</span>
-            <span className="hover:text-neutral-900 cursor-pointer transition-colors">Contact</span>
-          </div>
-        </div>
-      </footer>
-
       {selectedPoster && (
-        <PosterModal poster={selectedPoster} onClose={handleCloseModal} />
+        <PosterModal poster={selectedPoster} onClose={handleCloseModal} darkMode={darkMode} />
       )}
     </div>
   );

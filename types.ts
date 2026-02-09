@@ -4,6 +4,7 @@ export interface Poster {
   titleKo: string;
   year: string;
   client: string;
+  category: string;
   tags: string[];
   aspectRatio: 'portrait' | 'landscape' | 'square' | 'wide' | 'tall';
   color: string;

@@ -1,28 +1,50 @@
 import React from 'react';
 
-const Header: React.FC = () => {
+interface Props {
+  darkMode: boolean;
+  onToggleDark: () => void;
+}
+
+const Header: React.FC<Props> = ({ darkMode, onToggleDark }) => {
   return (
-    <header className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 pt-12 pb-6">
-      <nav className="flex items-center justify-between mb-16">
-        <div className="text-xs tracking-[0.3em] uppercase text-neutral-400 font-medium">
-          Seoul, KR
+    <header className="px-6 sm:px-10 lg:px-16 pt-6 pb-4">
+      <nav className="flex items-center justify-between max-w-[1200px] mx-auto">
+        {/* Logo */}
+        <div className="text-xl sm:text-2xl font-black tracking-tight uppercase">
+          BITNANEUN
         </div>
-        <div className="flex gap-8 text-xs tracking-[0.2em] uppercase text-neutral-400 font-medium">
-          <span className="text-neutral-900 cursor-pointer">Works</span>
-          <span className="hover:text-neutral-900 cursor-pointer transition-colors">About</span>
-          <span className="hover:text-neutral-900 cursor-pointer transition-colors">Contact</span>
+
+        {/* Navigation */}
+        <div className="flex items-center gap-8 sm:gap-12">
+          <span className="text-sm sm:text-base font-bold tracking-wide cursor-pointer uppercase">
+            HOME
+          </span>
+          <span className={`text-sm sm:text-base tracking-wide cursor-pointer uppercase transition-colors ${darkMode ? 'text-neutral-500 hover:text-white' : 'text-neutral-400 hover:text-neutral-900'}`}>
+            LOG
+          </span>
+          <span className={`text-sm sm:text-base tracking-wide cursor-pointer uppercase transition-colors ${darkMode ? 'text-neutral-500 hover:text-white' : 'text-neutral-400 hover:text-neutral-900'}`}>
+            INFO
+          </span>
+
+          {/* Dark mode toggle */}
+          <button
+            onClick={onToggleDark}
+            className={`relative w-12 h-6 rounded-full border-2 transition-colors duration-300 flex-shrink-0 ${
+              darkMode
+                ? 'bg-white border-white'
+                : 'bg-transparent border-neutral-900'
+            }`}
+          >
+            <div
+              className={`absolute top-0.5 w-4 h-4 rounded-full transition-all duration-300 ${
+                darkMode
+                  ? 'left-[calc(100%-18px)] bg-neutral-900'
+                  : 'left-0.5 bg-neutral-900'
+              }`}
+            />
+          </button>
         </div>
       </nav>
-
-      <div className="max-w-3xl">
-        <h1 className="text-5xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight leading-[0.9] text-neutral-900 mb-6">
-          STUDIO<br />FRAME
-        </h1>
-        <p className="text-base sm:text-lg text-neutral-400 font-light leading-relaxed max-w-lg">
-          영화와 드라마의 첫인상을 디자인합니다.<br />
-          포스터 디자인 스튜디오.
-        </p>
-      </div>
     </header>
   );
 };

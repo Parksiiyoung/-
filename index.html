@@ -3,12 +3,12 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>STUDIO FRAME — Poster Design Portfolio</title>
+    <title>BITNANEUN — Poster Design Studio</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Noto+Sans+KR:wght@300;400;500;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap"
       rel="stylesheet"
     />
     <script>
@@ -25,19 +25,100 @@
     <style>
       body {
         font-family: 'Inter', 'Noto Sans KR', sans-serif;
+        overflow-x: hidden;
       }
-      ::-webkit-scrollbar {
-        width: 6px;
+
+      /* Hide scrollbar */
+      .no-scrollbar::-webkit-scrollbar { display: none; }
+      .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+      ::-webkit-scrollbar { width: 6px; }
+      ::-webkit-scrollbar-track { background: transparent; }
+      ::-webkit-scrollbar-thumb { background: #d1d5db; border-radius: 3px; }
+
+      /* Ruler tick marks */
+      .ruler-line {
+        background-image: repeating-linear-gradient(
+          to right,
+          #999 0px,
+          #999 1px,
+          transparent 1px,
+          transparent 4px
+        );
+        height: 6px;
       }
-      ::-webkit-scrollbar-track {
-        background: transparent;
+      .ruler-line-thin {
+        background-image: repeating-linear-gradient(
+          to right,
+          #bbb 0px,
+          #bbb 1px,
+          transparent 1px,
+          transparent 3px
+        );
+        height: 4px;
       }
-      ::-webkit-scrollbar-thumb {
-        background: #d1d5db;
-        border-radius: 3px;
+
+      /* Dark mode */
+      .dark body, .dark .dark-bg { background-color: #111; color: #eee; }
+      html.dark { background-color: #111; }
+      html.dark body { background-color: #111; color: #eee; }
+      html.dark .ruler-line {
+        background-image: repeating-linear-gradient(
+          to right,
+          #555 0px,
+          #555 1px,
+          transparent 1px,
+          transparent 4px
+        );
       }
-      ::-webkit-scrollbar-thumb:hover {
-        background: #9ca3af;
+      html.dark .ruler-line-thin {
+        background-image: repeating-linear-gradient(
+          to right,
+          #444 0px,
+          #444 1px,
+          transparent 1px,
+          transparent 3px
+        );
+      }
+
+      /* Fade-in animation */
+      @keyframes fadeInUp {
+        from { opacity: 0; transform: translateY(24px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+      .animate-fade-in-up {
+        animation: fadeInUp 0.6s ease-out both;
+      }
+
+      @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+      }
+      .animate-fade-in {
+        animation: fadeIn 0.5s ease-out both;
+      }
+
+      /* Stagger children */
+      .stagger-children > *:nth-child(1) { animation-delay: 0ms; }
+      .stagger-children > *:nth-child(2) { animation-delay: 60ms; }
+      .stagger-children > *:nth-child(3) { animation-delay: 120ms; }
+      .stagger-children > *:nth-child(4) { animation-delay: 180ms; }
+      .stagger-children > *:nth-child(5) { animation-delay: 240ms; }
+      .stagger-children > *:nth-child(6) { animation-delay: 300ms; }
+      .stagger-children > *:nth-child(7) { animation-delay: 360ms; }
+      .stagger-children > *:nth-child(8) { animation-delay: 420ms; }
+      .stagger-children > *:nth-child(9) { animation-delay: 480ms; }
+
+      /* Poster hover */
+      .poster-card {
+        transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.4s ease;
+      }
+      .poster-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 12px 40px rgba(0,0,0,0.1);
+      }
+      html.dark .poster-card:hover {
+        box-shadow: 0 12px 40px rgba(0,0,0,0.4);
       }
     </style>
   <script type="importmap">
@@ -50,7 +131,7 @@
 }
 </script>
 </head>
-  <body class="bg-neutral-50 text-neutral-900 antialiased">
+  <body class="bg-white text-neutral-900 antialiased">
     <div id="root"></div>
     <script type="module" src="./index.tsx"></script>
   </body>

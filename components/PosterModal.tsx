@@ -1,13 +1,17 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Poster } from '../types';
 
 interface Props {
   poster: Poster;
   onClose: () => void;
+  darkMode: boolean;
 }
 
-const PosterModal: React.FC<Props> = ({ poster, onClose }) => {
+const PosterModal: React.FC<Props> = ({ poster, onClose, darkMode }) => {
+  const [show, setShow] = useState(false);
+
   useEffect(() => {
+    requestAnimationFrame(() => setShow(true));
     const handleEsc = (e: KeyboardEvent) => {
       if (e.key === 'Escape') onClose();
     };
@@ -32,152 +36,94 @@ const PosterModal: React.FC<Props> = ({ poster, onClose }) => {
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center p-4"
+      className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-8"
       onClick={onClose}
+      style={{
+        opacity: show ? 1 : 0,
+        transition: 'opacity 0.3s ease',
+      }}
     >
-      {/* Backdrop */}
-      <div className="absolute inset-0 bg-black/70 backdrop-blur-sm" />
+      <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" />
 
-      {/* Modal content */}
       <div
-        className="relative max-w-3xl w-full max-h-[90vh] overflow-hidden shadow-2xl"
-        style={{ backgroundColor: poster.color }}
+        className="relative max-w-2xl w-full max-h-[85vh] overflow-hidden"
+        style={{
+          backgroundColor: poster.color,
+          transform: show ? 'scale(1) translateY(0)' : 'scale(0.95) translateY(20px)',
+          transition: 'transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)',
+        }}
         onClick={(e) => e.stopPropagation()}
       >
-        {/* Close button */}
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 z-10 w-8 h-8 flex items-center justify-center transition-opacity hover:opacity-70"
+          className="absolute top-5 right-5 z-10 w-8 h-8 flex items-center justify-center transition-opacity hover:opacity-60"
           style={{ color: textColor }}
         >
-          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.5">
-            <line x1="4" y1="4" x2="16" y2="16" />
-            <line x1="16" y1="4" x2="4" y2="16" />
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" strokeWidth="1.5">
+            <line x1="3" y1="3" x2="15" y2="15" />
+            <line x1="15" y1="3" x2="3" y2="15" />
           </svg>
         </button>
 
-        {/* Accent line */}
-        <div
-          className="absolute top-0 left-0 w-full h-1"
-          style={{ backgroundColor: poster.accentColor }}
-        />
-
-        {/* Decorative circle */}
-        <div
-          className="absolute opacity-10"
-          style={{
-            backgroundColor: poster.accentColor,
-            width: '300px',
-            height: '300px',
-            borderRadius: '50%',
-            bottom: '-100px',
-            right: '-50px',
-          }}
-        />
-
-        <div className="p-10 sm:p-14">
-          <div className="mb-8">
-            <div className="flex items-center gap-3 mb-6">
-              <span
-                className="text-[10px] tracking-[0.3em] uppercase font-medium"
-                style={{ color: subtextColor }}
-              >
-                {poster.client}
-              </span>
-              <span style={{ color: subtextColor }}>|</span>
-              <span
-                className="text-[10px] tracking-[0.3em] uppercase font-medium"
-                style={{ color: subtextColor }}
-              >
-                {poster.year}
-              </span>
-            </div>
-
-            <h2
-              className="text-4xl sm:text-5xl font-bold tracking-tight leading-tight mb-2"
+        {/* Poster color preview area */}
+        <div className="h-48 sm:h-64 relative overflow-hidden">
+          <div
+            className="absolute inset-0"
+            style={{
+              background: `linear-gradient(135deg, ${poster.accentColor}33 0%, ${poster.color} 60%)`,
+            }}
+          />
+          <div className="absolute inset-0 flex items-center justify-center">
+            <span
+              className="text-6xl sm:text-8xl font-black tracking-tighter opacity-10"
               style={{ color: textColor }}
             >
-              {poster.title}
-            </h2>
-            <p
-              className="text-lg font-light mb-6"
-              style={{ color: subtextColor }}
-            >
-              {poster.titleKo}
-            </p>
+              {poster.title.charAt(0)}
+            </span>
+          </div>
+        </div>
 
-            <div
-              className="w-12 h-px mb-6"
-              style={{ backgroundColor: poster.accentColor }}
-            />
-
-            <p
-              className="text-sm leading-relaxed max-w-md"
-              style={{ color: subtextColor }}
-            >
-              {poster.description}
-            </p>
+        <div className="p-8 sm:p-10">
+          <div className="flex items-center gap-3 mb-4">
+            <span className="text-[10px] tracking-[0.25em] uppercase font-medium" style={{ color: subtextColor }}>
+              {poster.client}
+            </span>
+            <span className="text-[10px]" style={{ color: subtextColor }}>|</span>
+            <span className="text-[10px] tracking-[0.25em] uppercase font-medium" style={{ color: subtextColor }}>
+              {poster.year}
+            </span>
+            <span className="text-[10px]" style={{ color: subtextColor }}>|</span>
+            <span className="text-[10px] tracking-[0.25em] uppercase font-medium" style={{ color: subtextColor }}>
+              {poster.category}
+            </span>
           </div>
 
-          {/* Tags */}
-          <div className="flex flex-wrap gap-2 mb-8">
+          <h2 className="text-3xl sm:text-4xl font-bold tracking-tight leading-tight mb-1" style={{ color: textColor }}>
+            {poster.title}
+          </h2>
+          <p className="text-base font-light mb-5" style={{ color: subtextColor }}>
+            {poster.titleKo}
+          </p>
+
+          <div className="w-10 h-px mb-5" style={{ backgroundColor: poster.accentColor }} />
+
+          <p className="text-sm leading-relaxed mb-6" style={{ color: subtextColor }}>
+            {poster.description}
+          </p>
+
+          <div className="flex flex-wrap gap-2">
             {poster.tags.map((tag) => (
               <span
                 key={tag}
                 className="text-[10px] tracking-wider uppercase px-3 py-1 border"
                 style={{
                   color: textColor,
-                  borderColor: light ? 'rgba(0,0,0,0.15)' : 'rgba(255,255,255,0.2)',
+                  borderColor: light ? 'rgba(0,0,0,0.12)' : 'rgba(255,255,255,0.15)',
                 }}
               >
                 {tag}
               </span>
             ))}
-          </div>
-
-          {/* Info grid */}
-          <div className="grid grid-cols-2 gap-6">
-            <div>
-              <span
-                className="block text-[10px] tracking-[0.2em] uppercase mb-1 font-medium"
-                style={{ color: subtextColor }}
-              >
-                Type
-              </span>
-              <span
-                className="text-sm font-medium"
-                style={{ color: textColor }}
-              >
-                {poster.aspectRatio === 'portrait' || poster.aspectRatio === 'tall'
-                  ? 'Vertical Poster'
-                  : poster.aspectRatio === 'landscape' || poster.aspectRatio === 'wide'
-                  ? 'Horizontal Key Art'
-                  : 'Square Format'}
-              </span>
-            </div>
-            <div>
-              <span
-                className="block text-[10px] tracking-[0.2em] uppercase mb-1 font-medium"
-                style={{ color: subtextColor }}
-              >
-                Color
-              </span>
-              <div className="flex items-center gap-2">
-                <div
-                  className="w-4 h-4 border"
-                  style={{
-                    backgroundColor: poster.accentColor,
-                    borderColor: light ? 'rgba(0,0,0,0.1)' : 'rgba(255,255,255,0.15)',
-                  }}
-                />
-                <span
-                  className="text-xs font-mono"
-                  style={{ color: textColor }}
-                >
-                  {poster.accentColor}
-                </span>
-              </div>
-            </div>
           </div>
         </div>
       </div>
