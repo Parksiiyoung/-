@@ -1,16 +1,15 @@
 import React from 'react';
-import Sidebar from './components/Sidebar';
 import AIMixer from './components/AIMixer';
 import DecadeSection from './components/DecadeSection';
-import MobileNav from './components/MobileNav';
+import RadioSignalNav from './components/RadioSignalNav';
 import { decadesData } from './data/content';
 
 const App: React.FC = () => {
   return (
     <div className="min-h-screen bg-white relative">
       
-      {/* Mobile Navigation (Sticky Top) */}
-      <MobileNav />
+      {/* Radio Signal Navigation (Sticky Top) */}
+      <RadioSignalNav />
 
       <div className="container mx-auto max-w-7xl p-6 md:p-12 pt-0 md:pt-12">
         
@@ -40,10 +39,8 @@ const App: React.FC = () => {
         <AIMixer />
 
         {/* Main Content Area */}
-        <div className="flex flex-col md:flex-row relative gap-12 md:gap-20">
-          <Sidebar />
-          
-          <main className="md:w-4/5">
+        <div className="relative">
+          <main className="max-w-4xl mx-auto">
             {decadesData.map((decade) => (
               <DecadeSection key={decade.id} data={decade} />
             ))}
