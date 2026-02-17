@@ -1,0 +1,171 @@
+/* ========================================
+   BITNANEUN Animation System
+   間 (Ma) — Animations should breathe
+   ======================================== */
+
+/* --- Scroll Reveal --- */
+@keyframes reveal-up {
+  from { opacity: 0; transform: translateY(40px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes reveal-down {
+  from { opacity: 0; transform: translateY(-20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes reveal-fade {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes reveal-left {
+  from { opacity: 0; transform: translateX(-30px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes reveal-right {
+  from { opacity: 0; transform: translateX(30px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes reveal-scale {
+  from { opacity: 0; transform: scale(0.95); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+/* --- Kinetic Typography --- */
+@keyframes char-reveal {
+  from { opacity: 0; transform: translateY(110%); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes line-slide {
+  from { transform: translateY(110%); }
+  to   { transform: translateY(0); }
+}
+
+@keyframes line-reveal {
+  from { clip-path: inset(0 100% 0 0); }
+  to   { clip-path: inset(0 0% 0 0); }
+}
+
+/* --- Page Transitions --- */
+@keyframes page-enter {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes page-exit {
+  from { opacity: 1; }
+  to   { opacity: 0; }
+}
+
+/* --- UI Animations --- */
+@keyframes underline-expand {
+  from { transform: scaleX(0); }
+  to   { transform: scaleX(1); }
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+@keyframes pulse-subtle {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
+
+@keyframes slide-in-right {
+  from { transform: translateX(100%); }
+  to   { transform: translateX(0); }
+}
+
+@keyframes slide-out-right {
+  from { transform: translateX(0); }
+  to   { transform: translateX(100%); }
+}
+
+@keyframes overlay-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* --- Utility Classes --- */
+.animate-reveal-up    { animation: reveal-up 0.8s cubic-bezier(0.22, 1, 0.36, 1) both; }
+.animate-reveal-down  { animation: reveal-down 0.6s cubic-bezier(0.22, 1, 0.36, 1) both; }
+.animate-reveal-fade  { animation: reveal-fade 0.6s ease both; }
+.animate-reveal-left  { animation: reveal-left 0.8s cubic-bezier(0.22, 1, 0.36, 1) both; }
+.animate-reveal-right { animation: reveal-right 0.8s cubic-bezier(0.22, 1, 0.36, 1) both; }
+.animate-reveal-scale { animation: reveal-scale 0.6s cubic-bezier(0.22, 1, 0.36, 1) both; }
+.animate-page-enter   { animation: page-enter 0.5s cubic-bezier(0.22, 1, 0.36, 1) both; }
+.animate-char-reveal  { animation: char-reveal 0.6s cubic-bezier(0.22, 1, 0.36, 1) both; }
+.animate-line-reveal  { animation: line-reveal 1s cubic-bezier(0.22, 1, 0.36, 1) both; }
+.animate-slide-in     { animation: slide-in-right 0.4s cubic-bezier(0.22, 1, 0.36, 1) both; }
+.animate-slide-out    { animation: slide-out-right 0.3s ease-in both; }
+.animate-overlay-in   { animation: overlay-in 0.3s ease both; }
+.animate-shimmer {
+  background: linear-gradient(90deg, #E5E5E0 25%, #F0F0EC 50%, #E5E5E0 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+/* Stagger delays */
+.stagger-1  { animation-delay: 0.05s; }
+.stagger-2  { animation-delay: 0.1s; }
+.stagger-3  { animation-delay: 0.15s; }
+.stagger-4  { animation-delay: 0.2s; }
+.stagger-5  { animation-delay: 0.25s; }
+.stagger-6  { animation-delay: 0.3s; }
+.stagger-7  { animation-delay: 0.35s; }
+.stagger-8  { animation-delay: 0.4s; }
+.stagger-9  { animation-delay: 0.45s; }
+.stagger-10 { animation-delay: 0.5s; }
+.stagger-11 { animation-delay: 0.55s; }
+.stagger-12 { animation-delay: 0.6s; }
+
+/* Hidden state before reveal triggers */
+.reveal-hidden {
+  opacity: 0;
+}
+
+/* Nav link underline effect */
+.nav-link {
+  position: relative;
+}
+.nav-link::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  width: 100%;
+  height: 1px;
+  background-color: #1A1A1A;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.nav-link:hover::after,
+.nav-link.active::after {
+  transform: scaleX(1);
+}
+
+/* Image hover zoom */
+.img-zoom {
+  overflow: hidden;
+}
+.img-zoom img {
+  transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.img-zoom:hover img {
+  transform: scale(1.05);
+}
+
+/* Card hover lift */
+.card-hover {
+  transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.card-hover:hover {
+  transform: translateY(-4px);
+}
